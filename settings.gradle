@@ -1,0 +1,6 @@
+rootProject.name = 'MSA_public'
+
+
+include 'service'
+include 'service:fileupload'
+include 'service:address'
