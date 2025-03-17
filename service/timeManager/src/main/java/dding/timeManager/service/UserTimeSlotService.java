@@ -7,8 +7,11 @@ import dding.timeManager.entity.UserTimeSlot;
 import dding.timeManager.repository.UserTimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +21,7 @@ public class UserTimeSlotService {
 
     private final UserTimeSlotRepository userTimeSlotRepository;
 
+    @Transactional
     public void save(UserTimeSlotRequest request) {
         UserTimeSlot slot = UserTimeSlot.builder()
                 .userId(request.getUserId())
@@ -26,6 +30,12 @@ public class UserTimeSlotService {
                 .available(request.isAvailable())
                 .build();
         userTimeSlotRepository.save(slot);
+    }
+
+
+    //TODO : IMPL
+    public void update(UserTimeSlotRequest request) {
+
     }
 
     public List<UserTimeSlotResponse> findByUserId(String userId) {
@@ -37,6 +47,7 @@ public class UserTimeSlotService {
                         slot.isAvailable()
                 )).collect(Collectors.toList());
     }
+
 
     public void deleteAllByUserId(String userId) {
         userTimeSlotRepository.deleteByUserId(userId);
