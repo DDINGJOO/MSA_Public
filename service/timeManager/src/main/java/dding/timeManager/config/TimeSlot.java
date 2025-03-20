@@ -20,39 +20,39 @@ public class TimeSlot {
         this. hour = Integer.getInteger(hour);
 
 
-        if(Objects.equals(dayOfWeek,"Friday"))
+        if(Objects.equals(dayOfWeek,"FRI"))
         {
             this.dayOfWeek  = 5;
             return;
 
         }
-        if(Objects.equals(dayOfWeek,"Saturday"))
+        if(Objects.equals(dayOfWeek,"SAT"))
         {
             this.dayOfWeek  = 6;
             return;
         }
-        if(Objects.equals(dayOfWeek,"Sunday"))
+        if(Objects.equals(dayOfWeek,"SUN"))
         {
             this.dayOfWeek  = 7;
             return;
         }
 
-        if(Objects.equals(dayOfWeek,"Monday"))
+        if(Objects.equals(dayOfWeek,"MON"))
         {
             this.dayOfWeek  = 1;
             return;
         }
-        if(Objects.equals(dayOfWeek,"TuesDay"))
+        if(Objects.equals(dayOfWeek,"TUE"))
         {
             this.dayOfWeek  = 2;
             return;
         }
-        if(Objects.equals(dayOfWeek,"Wednesday"))
+        if(Objects.equals(dayOfWeek,"WED"))
         {
             this.dayOfWeek  = 3;
             return;
         }
-        if(Objects.equals(dayOfWeek,"Thursday"))
+        if(Objects.equals(dayOfWeek,"THU"))
         {
             this.dayOfWeek  = 4;
             return;
