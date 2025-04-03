@@ -45,6 +45,12 @@ public class UserTimeSlotController {
         return ResponseEntity.ok("시간 슬롯이 삭제되었습니다.");
     }
 
+    @PostMapping("/{userId}/bulk")
+    public ResponseEntity<String> addBulkUserTimeSlots(@PathVariable String userId,
+                                                       @RequestBody List<TimeSlotRequest> requests) {
+        userTimeSlotService.addTimeSlots(userId, requests);
+        return ResponseEntity.ok("여러 시간 슬롯이 추가되었습니다.");
+    }
 
 
     //조회 마가 계산 하긴 하는데... 흠... 먼가 좀 방법이 있어야 할지도?

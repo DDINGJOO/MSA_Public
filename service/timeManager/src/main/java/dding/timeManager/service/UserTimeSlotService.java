@@ -9,6 +9,7 @@ import dding.timeManager.repository.UserTimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,4 +49,30 @@ public class UserTimeSlotService {
     public void deleteUserTimeSlot(Long id) {
         userTimeSlotRepository.deleteById(id);
     }
+
+    public void addTimeSlots(String userId, List<TimeSlotRequest> requests) {
+        List<UserTimeSlot> newSlots = new ArrayList<>();
+
+        for (TimeSlotRequest request : requests) {
+            boolean exists = userTimeSlotRepository.existsByUserIdAndDayOfWeekAndHour(
+                    userId,
+                    request.getDayOfWeek(),
+                    request.getHour()
+            );
+
+            if (!exists) {
+                newSlots.add(
+                        UserTimeSlot.builder()
+                                .userId(userId)
+                                .dayOfWeek(request.getDayOfWeek())
+                                .hour(request.getHour())
+                                .available(true)
+                                .build()
+                );
+            }
+        }
+
+        userTimeSlotRepository.saveAll(newSlots);
+    }
+
 }

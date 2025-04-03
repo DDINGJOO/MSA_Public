@@ -86,5 +86,11 @@ public class ImageUploadService {
     }
 
 
+    public String getImageSaveName(String imageId) {
+
+
+         return  imageFileRepository.findById(imageId).orElseThrow().getSavedName();
+
+    }
 }
 

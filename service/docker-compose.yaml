@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  image-service:
+    build:
+      context: ./fileupload
+      dockerfile: Dockerfile
+    ports:
+      - "9200:9200"

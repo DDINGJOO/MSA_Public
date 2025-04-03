@@ -3,16 +3,18 @@ package dding.fileupload.controller;
 
 import dding.fileupload.dto.request.ImageUploadRequest;
 import dding.fileupload.service.ImageUploadService;
-import jakarta.annotation.Resource;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -23,7 +25,7 @@ public class FileUploadController {
 
     private final ImageUploadService imageUploadService;
 
-    // ✅ 이미지 업로드
+    //  이미지 업로드
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
                                          @RequestParam("category") String category) {
@@ -39,7 +41,7 @@ public class FileUploadController {
         }
     }
 
-    // ✅ 이미지 삭제
+    //  이미지 삭제
     @DeleteMapping("/{imageId}")
     public ResponseEntity<?> deleteImage(@PathVariable String imageId) {
         try {
@@ -50,19 +52,41 @@ public class FileUploadController {
         }
     }
 
-    @GetMapping("/view/{category}/{filename}")
+
+    @GetMapping("/view/{category}/{imageId}")
     public ResponseEntity<Resource> viewImage(@PathVariable String category,
-                                              @PathVariable String filename) throws IOException {
+                                              @PathVariable String imageId)  {
+
+        String filename = imageUploadService.getImageSaveName(imageId);
+        return printImage(category,filename);
+    }
+
+
+    private ResponseEntity<Resource> printImage(String category, String filename) {
 
         Path path = Path.of("C:/upload/images", category, filename);
-        UrlResource resource = new UrlResource(path.toUri());
+        System.out.println("파일 경로: " + path);
 
-        if (!resource.exists()) {
+        if (!Files.exists(path)) {
             return ResponseEntity.notFound().build();
+        }
+        UrlResource resource;
+        String contentType;
+        try {
+            resource = new UrlResource(path.toUri());
+             contentType = Files.probeContentType(path);
+
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
-                .body((Resource) resource);
+                .header(HttpHeaders.CONTENT_TYPE, contentType)
+                .body(resource); //
     }
 }

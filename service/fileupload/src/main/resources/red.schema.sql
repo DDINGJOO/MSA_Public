@@ -15,5 +15,17 @@ CREATE TABLE profile_image (
                                image_id VARCHAR(255) NOT NULL,
                                is_current BOOLEAN DEFAULT TRUE,
                                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                               FOREIGN KEY (image_id) REFERENCES image_file(id)
+                               FOREIGN KEY (image_id) REFERENCES images(id)
+);
+
+
+CREATE TABLE post_image (
+                            id VARCHAR(255) PRIMARY KEY,
+                            post_id VARCHAR(255) NOT NULL,
+                            image_id VARCHAR(255),
+                            sequence BIGINT,
+                            created_at TIMESTAMP,
+
+                            CONSTRAINT fk_post_image_image_file
+                                FOREIGN KEY (image_id) REFERENCES images(id)
 );

@@ -38,7 +38,6 @@ public class CommonAvailableTimeService {
 
 
 
-
         return commonSlots.stream()
                 .map(slotKey -> {
                     int dayOfWeek = Integer.parseInt(slotKey.split("_")[0]);

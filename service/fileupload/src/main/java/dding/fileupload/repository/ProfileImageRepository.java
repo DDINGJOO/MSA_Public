@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ProfileImageRepository extends JpaRepository<ProfileImage, Long> {
     List<ProfileImage> findByUserIdOrderByCreatedAtDesc(String userId);
     Optional<ProfileImage> findByUserIdAndIsCurrentTrue(String userId);
+
+    boolean existsByUserId(String userId);
 }
