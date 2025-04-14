@@ -1,6 +1,6 @@
 package dding.timeManager.repository;
 
-import dding.timeManager.entity.UserTimeSlot;
+import dding.timeManager.entity.user.UserTimeSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

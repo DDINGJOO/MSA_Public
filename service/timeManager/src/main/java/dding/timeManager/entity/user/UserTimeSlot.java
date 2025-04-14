@@ -1,7 +1,8 @@
-package dding.timeManager.entity;
+package dding.timeManager.entity.user;
 
 
 
+import dding.timeManager.entity.AbstractTimeSlot;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

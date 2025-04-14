@@ -16,3 +16,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+KAKAO_KEY : 70ed7355473badad5a2e4bfac8e95bc6

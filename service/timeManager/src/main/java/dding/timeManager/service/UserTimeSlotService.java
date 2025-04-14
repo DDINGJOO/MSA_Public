@@ -1,10 +1,8 @@
 package dding.timeManager.service;
 
 import dding.timeManager.dto.request.TimeSlotRequest;
-import dding.timeManager.dto.request.UserTimeSlotRequest;
 import dding.timeManager.dto.response.TimeSlotResponse;
-import dding.timeManager.dto.response.UserTimeSlotResponse;
-import dding.timeManager.entity.UserTimeSlot;
+import dding.timeManager.entity.user.UserTimeSlot;
 import dding.timeManager.repository.UserTimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

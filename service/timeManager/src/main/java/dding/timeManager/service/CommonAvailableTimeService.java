@@ -1,14 +1,12 @@
 package dding.timeManager.service;
 
-import dding.timeManager.config.TimeSlot;
 import dding.timeManager.dto.response.TimeSlotResponse;
-import dding.timeManager.entity.BandTimeSLot;
+import dding.timeManager.entity.user.BandTimeSLot;
 import dding.timeManager.repository.BandTimeSlotRepository;
 import dding.timeManager.repository.UserTimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;

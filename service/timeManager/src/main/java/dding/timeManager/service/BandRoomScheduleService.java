@@ -1,10 +1,8 @@
 package dding.timeManager.service;
 
 import dding.timeManager.dto.request.BandRoomScheduleRequest;
-import dding.timeManager.dto.request.TimeSlotRequest;
 import dding.timeManager.dto.response.BandRoomScheduleResponse;
-import dding.timeManager.dto.response.TimeSlotResponse;
-import dding.timeManager.entity.BandRoomSchedule;
+import dding.timeManager.entity.user.BandRoomSchedule;
 import dding.timeManager.repository.BandRoomScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package dding.timeManager.repository;
 
-import dding.timeManager.entity.BandRoomSchedule;
+import dding.timeManager.entity.user.BandRoomSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
