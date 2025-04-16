@@ -5,6 +5,7 @@ import dding.fileupload.dto.request.ImageUploadRequest;
 import dding.fileupload.entity.ImageFile;
 import dding.fileupload.repository.ImageFileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,9 @@ public class ImageUploadService {
 
     // 실제 저장될 디렉토리 루트 경로
     //TODO : 루트 절대경로 1
-    private final String uploadRootPath = "C:/upload/images"; // 예시 (Linux에서는 /var/www/images)
+
+    @Value("${file.upload-root-path}")
+    private String uploadRootPath;// 예시 (Linux에서는 /var/www/images)
 
     public String saveImage(ImageUploadRequest request) throws IOException {
         MultipartFile file = request.getFile();

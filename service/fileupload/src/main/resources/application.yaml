@@ -1,7 +1,7 @@
 server:
   port: 9200
   address: 0.0.0.0
-  url: http://192.168.200.104:9200
+  url: http://192.168.200.101:9200
 
 
 spring:
@@ -28,4 +28,6 @@ spring:
       static-locations: file:uploads/
 
 file:
-  upload-dir: uploads/
+  upload-root-path: /upload/images
+  upload-post-path: /upload/images/post
+  upload-profile-path: /upload/images/profile

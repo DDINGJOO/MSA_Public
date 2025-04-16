@@ -1,10 +1,11 @@
-version: '3.8'
-
 services:
-
   image-service:
     build:
       context: ./fileupload
       dockerfile: Dockerfile
     ports:
       - "9200:9200"
+    volumes:
+      - ./uploads:/upload/images/
+      - ./uploads:/upload/images/post
+      - ./uploads:/upload/images/profile

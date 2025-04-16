@@ -6,6 +6,7 @@ import dding.fileupload.service.ImageUploadService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +25,8 @@ import java.nio.file.Path;
 public class FileUploadController {
 
     private final ImageUploadService imageUploadService;
-
+    @Value("${file.upload-root-path}")
+    private String uploadRootPath;
     //  이미지 업로드
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
@@ -64,7 +66,7 @@ public class FileUploadController {
 
     private ResponseEntity<Resource> printImage(String category, String filename) {
 
-        Path path = Path.of("C:/upload/images", category, filename);
+        Path path = Path.of(uploadRootPath, category, filename);
         System.out.println("파일 경로: " + path);
 
         if (!Files.exists(path)) {

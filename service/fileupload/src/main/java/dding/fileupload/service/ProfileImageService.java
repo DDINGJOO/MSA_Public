@@ -28,7 +28,8 @@ public class ProfileImageService {
     private final ProfileImageRepository profileImageRepository;
     @Value("${server.url}")
     private String serverUrl;
-    private final String uploadPath = "C:/upload/images/profile";
+    @Value("${file.upload-profile-path}")
+    private String uploadPath;
 
     public ImageFile getCntProfileImage(String userId)
     {

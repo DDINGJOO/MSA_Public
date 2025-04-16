@@ -13,6 +13,12 @@ public class StudioTimeSlotController {
 
     private final StudioTimeSlotService timeSlotService;
 
+    @PutMapping("/update")
+    public ResponseEntity<String> updateTimeSlots(@RequestBody StudioTimeSlotBatchRequest request) {
+        timeSlotService.updateTimeSlots(request);
+        return ResponseEntity.ok("Time slots updated successfully");
+    }
+
     @PostMapping
     public ResponseEntity<String> saveTimeSlots(@RequestBody StudioTimeSlotBatchRequest request) {
         timeSlotService.saveTimeSlots(request);

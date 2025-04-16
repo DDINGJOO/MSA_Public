@@ -27,7 +27,9 @@ public class PostImageService {
     private final PostImageRepository postImageRepository;
     private final ImageFileRepository imageFileRepository;
     private final FileStorageService fileStorageService;
-    private final String uploadPath = "C:/upload/images/post";
+
+    @Value("${file.upload-post-path}")
+    private String uploadPath;
     @Value("${server.url}")
     private String serverUrl;
 

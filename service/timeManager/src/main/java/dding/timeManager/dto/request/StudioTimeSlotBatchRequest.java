@@ -10,6 +10,8 @@ public class StudioTimeSlotBatchRequest {
     private int dayOfWeek;         // 1=월, ..., 7=일
     private String startTime;      // ex. "09:00"
     private String endTime;        // ex. "21:00"
+    private boolean available;
     private boolean isHoliday;
     private boolean check24Hours; //  24시간 운영 여부
+
 }

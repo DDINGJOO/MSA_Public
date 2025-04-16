@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface StudioTimeSlotRepository  extends JpaRepository<StudioTimeSlot,String> {
     List<StudioTimeSlot> findByStudioIdAndDayOfWeekAndIsHolidayAndAvailableTrue(String studioId, int dayOfWeek, boolean isHoliday);
+
+    void deleteAllByStudioId(String studioId);
 }
