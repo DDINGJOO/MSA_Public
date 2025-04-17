@@ -1,4 +1,4 @@
-package dding.timeManager.entity.Studio;
+package dding.timeManager.entity.HolidatSlot;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,23 +13,27 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudioTimeSlot {
+public class HolidaySlot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
+    private LocalDate date; // 공휴일 날짜
+
+    @Column(nullable = false)
     private String studioId;
 
     @Column(nullable = false)
-    private LocalDate date; // yyyy-MM-dd
+    private String bandRoomId;
 
     @Column(nullable = false)
-    private int hour; // 0~23
+    private int hour;
 
     @Column(nullable = false)
     private boolean isClosed;
 
     private Integer specialPrice;
 }
+

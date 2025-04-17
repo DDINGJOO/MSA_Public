@@ -1,19 +1,18 @@
 package dding.timeManager.entity.Studio;
 
+import dding.timeManager.config.RecurrencePattern;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudioTimeSlot {
+public class StudioWeek {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +22,15 @@ public class StudioTimeSlot {
     private String studioId;
 
     @Column(nullable = false)
-    private LocalDate date; // yyyy-MM-dd
+    private int dayOfWeek;
 
     @Column(nullable = false)
-    private int hour; // 0~23
+    private int hour;
+
+    @Enumerated(EnumType.STRING)
+    private RecurrencePattern recurrencePattern;
+
+    private Boolean isOddWeek;
 
     @Column(nullable = false)
     private boolean isClosed;
