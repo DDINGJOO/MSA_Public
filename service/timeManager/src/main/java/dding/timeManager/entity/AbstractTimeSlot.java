@@ -6,9 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@MappedSuperclass // 상속만 위한 부모 클래스라면 @MappedSuperclass 도 가능
+@MappedSuperclass
 @Getter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

@@ -1,8 +1,6 @@
 package dding.timeManager.service;
 
 import dding.timeManager.dto.response.TimeSlotResponse;
-import dding.timeManager.entity.user.BandTimeSLot;
-import dding.timeManager.repository.BandTimeSlotRepository;
 import dding.timeManager.repository.UserTimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CommonAvailableTimeService {
-    private final BandTimeSlotRepository bandTimeSlotRepository;
     private final UserTimeSlotRepository userTimeSlotRepository;
 
 
@@ -47,33 +44,5 @@ public class CommonAvailableTimeService {
 
 
 
-    public  List<TimeSlotResponse>  readCommonAvailableTimes(String bandId)
-    {
-        return bandTimeSlotRepository.findByBandId(bandId).stream()
-                .map(slot -> TimeSlotResponse.builder()
-                        .id(slot.getId())
-                        .dayOfWeek(slot.getDayOfWeek())
-                        .hour(slot.getHour())
-                        .build())
-                .collect(Collectors.toList());
 
-
-
-    }
-
-
-
-    public void saveAvailableTimes(List<TimeSlotResponse> slots, String bandId)
-    {
-        for(TimeSlotResponse slot : slots)
-        {
-            bandTimeSlotRepository.save(
-                    BandTimeSLot.builder()
-                            .bandId(bandId)
-                            .dayOfWeek(slot.getDayOfWeek())
-                            .hour(slot.getHour())
-                            .build()
-            );
-        }
-    }
 }

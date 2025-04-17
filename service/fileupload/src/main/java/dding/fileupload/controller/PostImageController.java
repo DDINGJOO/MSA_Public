@@ -67,6 +67,8 @@ public class PostImageController {
     }
 
 
+
+
     @GetMapping("/{imageId}")
     public ResponseEntity<Resource> getPostImage(@PathVariable String imageId) {
         return fileUploadController.viewImage("post", imageId);

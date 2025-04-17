@@ -12,6 +12,5 @@ public class StudioTimeSlotBatchRequest {
     private String endTime;        // ex. "21:00"
     private boolean available;
     private boolean isHoliday;
-    private boolean check24Hours; //  24시간 운영 여부
 
 }
