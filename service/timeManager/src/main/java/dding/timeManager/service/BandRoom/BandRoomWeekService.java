@@ -4,11 +4,13 @@ import dding.timeManager.dto.request.BandRoom.BandRoomWeekRequest;
 import dding.timeManager.dto.request.BandRoom.UpdateBandRoomWeekRequest;
 import dding.timeManager.entity.BandRoom.BandRoomWeek;
 import dding.timeManager.repository.BandRoomWeekRepository;
+
 import dding.timeManager.service.Studio.StudioWeekService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +20,8 @@ import java.util.List;
 public class BandRoomWeekService {
 
     private final BandRoomWeekRepository bandRoomWeekRepository;
-    private final StudioWeekService studioWeekService;
 
     public void saveBandRoomWeek(String bandRoomId, BandRoomWeekRequest request) {
-        // 1. 겹치는 기존 슬롯 삭제
-//        deleteOverlappingSlots(bandRoomId, request.getDayOfWeek(), request.getStartTime(), request.getEndTime());
-
         // 2. 새로운 슬롯 생성
         List<BandRoomWeek> slots = splitIntoSlots(bandRoomId, request);
         bandRoomWeekRepository.saveAll(slots);
@@ -63,26 +61,7 @@ public class BandRoomWeekService {
                 .build();
     }
 
-    private void deleteOverlappingSlots(String bandRoomId, int dayOfWeek, LocalTime startTime, LocalTime endTime) {
-        List<BandRoomWeek> existingSlots = bandRoomWeekRepository.findByBandRoomIdAndDayOfWeek(bandRoomId, dayOfWeek);
 
-        for (BandRoomWeek slot : existingSlots) {
-            LocalTime slotTime = LocalTime.of(slot.getHour(), 0);
-
-            boolean overlap;
-            if (startTime.isBefore(endTime)) {
-                // ex) 09:00 ~ 18:00
-                overlap = !startTime.isAfter(slotTime) && slotTime.isBefore(endTime);
-            } else {
-                // Cross-day ex) 23:00 ~ 02:00
-                overlap = !startTime.isAfter(slotTime) || slotTime.isBefore(endTime);
-            }
-
-            if (overlap) {
-                bandRoomWeekRepository.delete(slot);
-            }
-        }
-    }
 
     @Transactional
     public void saveBandRoomWeeks(String bandRoomId, List<BandRoomWeekRequest> requests) {
@@ -92,21 +71,25 @@ public class BandRoomWeekService {
         }
     }
 
-    public void updateBandRoomWeeks(String bandRoomId, UpdateBandRoomWeekRequest updateRequest, boolean forceStudioUpdate) {
-        List<BandRoomWeekRequest> weeks = updateRequest.getWeeks();
-        List<String> studioIds = updateRequest.getStudioIds();
+    public void updateBandRoomWeeks(String bandRoomId, List<BandRoomWeekRequest> requests) {
+
 
         // 1. 기존 BandRoom 주간 슬롯 삭제
+        bandRoomWeekRepository.deleteByBandRoomId(bandRoomId);
 
 
         // 2. 새 BandRoom 주간 슬롯 저장
-        saveBandRoomWeeks(bandRoomId, weeks);
+        saveBandRoomWeeks(bandRoomId, requests);
 
-        // 3. forceStudioUpdate 요청이 true면 스튜디오 업데이트
-        if (forceStudioUpdate && studioIds != null) {
-            for (String studioId : studioIds) {
-                studioWeekService.updateStudioWeeksBasedOnBandRoom(bandRoomId, studioId, weeks);
-            }
-        }
+    }
+
+
+
+    public boolean isOpenCheck(String bandRoomId, LocalDate date, LocalTime time){
+        int dayOfWeek = date.getDayOfWeek().getValue() % 7; // (월=1 ~ 일=7) ➔ (일=0 ~ 토=6)
+        int hour = (time != null) ? time.getHour() : -1;
+        BandRoomWeek bandRoomWeek = bandRoomWeekRepository.findByBandRoomIdAndDayOfWeekAndHour(bandRoomId, dayOfWeek, hour);
+
+        return bandRoomWeek != null && !bandRoomWeek.isClosed();
     }
 }

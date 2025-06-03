@@ -1,6 +1,6 @@
 package dding.timeManager.controller.Studio;
 
-import dding.timeManager.dto.request.Stodio.StudioWeekRequest;
+import dding.timeManager.dto.request.Stodio.StudioWeeksDto;
 
 import dding.timeManager.service.Studio.StudioWeekService;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +15,22 @@ public class StudioWeekController {
 
     private final StudioWeekService studioWeekService;
 
-    @PostMapping("/{studioId}/weeks")
+    @PostMapping("/{bandRoomId}/{studioId}/weeks")
     public void registerStudioWeeks(
-            @PathVariable String studioId,
-            @RequestBody List<StudioWeekRequest> request
+            @PathVariable(name = "bandRoomId") String bandRoomId,
+            @PathVariable(name = "studioId") String studioId,
+            @RequestBody List<StudioWeeksDto> request
     ) {
-        studioWeekService.saveStudioWeeks(studioId,request);
+        studioWeekService.upDateStudioWeeks(studioId,bandRoomId,request);
     }
 
-    @PostMapping("/{studioId}/weeks/special-prices")
-    public void registerStudioWeek(
-            @PathVariable String studioId,
-            @RequestBody List<StudioWeekRequest> request
+    @PostMapping("/{bandRoomId}/{studioId}/weeks/upDate")
+    public void upDateStudioWeeks(
+            @PathVariable(name = "bandRoomId") String bandRoomId,
+            @PathVariable(name = "studioId") String studioId,
+            @RequestBody List<StudioWeeksDto> request
     ) {
-        studioWeekService.saveStudioWeeks(studioId,request);
+        studioWeekService.upDateStudioWeeks(studioId, bandRoomId, request);
     }
+
 }

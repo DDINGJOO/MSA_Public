@@ -9,3 +9,18 @@ services:
       - ./uploads:/upload/images/
       - ./uploads:/upload/images/post
       - ./uploads:/upload/images/profile
+
+
+  time-manager-service:
+    build:
+      context: ./timeManager
+      dockerfile: Dockerfile
+    ports:
+      - "9202:9202"
+
+  address-service:
+    build:
+      context: ./address
+      dockerfile: Dockerfile
+    ports:
+      - "9201:9201"

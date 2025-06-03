@@ -2,10 +2,15 @@ package dding.timeManager.controller.BandRoom;
 
 import dding.timeManager.dto.request.BandRoom.BandRoomWeekRequest;
 import dding.timeManager.dto.request.BandRoom.UpdateBandRoomWeekRequest;
+import dding.timeManager.dto.response.Avaiable.AvailableHourResponse;
 import dding.timeManager.service.BandRoom.BandRoomWeekService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -34,11 +39,20 @@ public class BandRoomWeekController {
     }
 
     @PutMapping("/{bandRoomId}/weeks")
-    public void updateBandRoomWeeks(
+    public String updateBandRoomWeeks(
             @PathVariable String bandRoomId,
-            @RequestParam(name = "forceStudioUpdate", defaultValue = "false") boolean forceStudioUpdate,
-            @RequestBody UpdateBandRoomWeekRequest updateRequest
+            @RequestBody List<BandRoomWeekRequest> requests
     ) {
-        bandRoomWeekService.updateBandRoomWeeks(bandRoomId, updateRequest, forceStudioUpdate);
+        bandRoomWeekService.updateBandRoomWeeks(bandRoomId, requests);
+        return "success";
+    }
+
+    @GetMapping("/{bandRoomId}/open-check")
+    public ResponseEntity<?> isStudioOpen(
+            @PathVariable(name = "bandRoomId") String bandRoomId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time
+    ) {
+        return ResponseEntity.ok(bandRoomWeekService.isOpenCheck(bandRoomId,date, time));
     }
 }

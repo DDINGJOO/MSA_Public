@@ -32,4 +32,5 @@ public class StudioTimeSlot {
     private boolean isClosed;
 
     private Integer specialPrice;
+
 }

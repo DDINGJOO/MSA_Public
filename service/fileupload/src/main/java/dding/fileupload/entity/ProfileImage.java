@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Entity(name ="profile_image")
+@Entity
+@Table(name = "profile_image")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -14,10 +14,11 @@ CREATE TABLE studio_week (
                              studio_id VARCHAR(255) NOT NULL,
                              day_of_week INT NOT NULL,
                              hour INT NOT NULL,
-                             recurrence_pattern VARCHAR(20),
+                             recurrence_pattern VARCHAR(255),
                              is_odd_week BOOLEAN,
                              is_closed BOOLEAN NOT NULL,
-                             special_price INT
+                             special_price INT,
+                             overridden BOOLEAN NOT NULL
 );
 
 CREATE TABLE studio_time_slot (

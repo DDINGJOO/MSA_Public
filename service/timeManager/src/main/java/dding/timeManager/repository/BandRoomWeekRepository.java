@@ -23,4 +23,7 @@ public interface BandRoomWeekRepository extends JpaRepository<BandRoomWeek, Long
     void deleteAllByBandRoomIdAndDayOfWeek(String bandRoomId, int dayOfWeek);
 
 
+    List<BandRoomWeek> findAllByBandRoomId(String bandRoomId);
+
+
 }

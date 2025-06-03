@@ -4,7 +4,7 @@ server:
 spring:
 
   datasource:
-    url: jdbc:mysql://localhost:3306/address
+    url: jdbc:mysql://host.docker.internal:3306/address
     username: root
     password: 1001
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,4 +17,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-KAKAO_KEY : 70ed7355473badad5a2e4bfac8e95bc6
+KAKAO_KEY : f729f3116faeb0d8dafb637d913d9d33

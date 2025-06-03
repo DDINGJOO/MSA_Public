@@ -3,7 +3,9 @@ package dding.address.controller;
 import dding.address.config.AddressType;
 import dding.address.dto.request.AddressSaveRequest;
 import dding.address.dto.response.AddressResponse;
+import dding.address.entity.Address;
 import dding.address.service.AddressService;
+import dding.address.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +18,21 @@ import java.util.List;
 public class AddressController {
 
     private final AddressService addressService;
+    private final KakaoService kakaoService;
 
-    @PostMapping("/save")
+    @GetMapping("/{roadUrl}")
+    public ResponseEntity<?> getKakaOAddressServiceTest(@PathVariable String roadUrl)
+    {
+        return ResponseEntity.ok(kakaoService.getKakaoApiFromAddress(roadUrl));
+    }
+
+    @GetMapping("/region/{roadUrl}")
+    public ResponseEntity<?> getKakaOAddressService(@PathVariable String roadUrl)
+    {
+        return ResponseEntity.ok(kakaoService.getAddressRegions(roadUrl));
+    }
+
+    @PostMapping()
     public ResponseEntity<AddressResponse> save(@RequestBody AddressSaveRequest request) {
         AddressResponse response = addressService.saveAddress(request);
         return ResponseEntity.ok(response);
@@ -46,12 +61,13 @@ public class AddressController {
     }
 
     @GetMapping("/cities")
-    public ResponseEntity<List<String>> getCities() {
+    public ResponseEntity<List<String>> getCities(
+    ) {
         return ResponseEntity.ok(addressService.getAllCities());
     }
 
     @GetMapping("/districts")
-    public ResponseEntity<List<String>> getDistricts(@RequestParam String city) {
+    public ResponseEntity<List<Address>> getDistricts(@RequestParam String city) {
         return ResponseEntity.ok(addressService.getDistrictsByCity(city));
     }
 

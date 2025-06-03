@@ -2,10 +2,7 @@ package dding.fileupload.entity;
 
 
 import dding.fileupload.config.ImageStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity(name ="images")
+@Entity
+@Table(name= "image_file")
 @Getter
 @Builder
 @NoArgsConstructor

@@ -27,6 +27,7 @@ public class AddressResponse {
                 .addressType(address.getAddressType())
                 .referenceId(address.getReferenceId())
                 .city(address.getCity())
+
                 .district(address.getDistrict())
                 .neighborhood(address.getNeighborhood())
                 .roadAddress(address.getRoadAddress())

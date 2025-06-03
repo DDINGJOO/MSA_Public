@@ -3,6 +3,7 @@ package dding.address.service;
 import dding.address.config.AddressType;
 import dding.address.dto.request.AddressSaveRequest;
 import dding.address.dto.response.AddressResponse;
+import dding.address.dto.response.KakaoRegionDto;
 import dding.address.entity.Address;
 import dding.address.repository.AddressRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +16,18 @@ import java.util.List;
 public class AddressService {
 
     private final AddressRepository addressRepository;
+    private final KakaoService kakaoService;
 
     public AddressResponse saveAddress(AddressSaveRequest request) {
+        KakaoRegionDto dto = kakaoService.getAddressRegions(request.getRoadAddress());
         Address address = Address.builder()
-                .addressType(request.getAddressType())
+                .addressType(AddressType.BAND_ROOM)
                 .referenceId(request.getReferenceId())
-                .city(request.getCity())
-                .district(request.getDistrict())
-                .neighborhood(request.getNeighborhood())
+                .city(dto.getRegion1())
+                .district(dto.getRegion2())
+                .neighborhood(dto.getRegion3())
                 .roadAddress(request.getRoadAddress())
-                .legalDongCode(request.getLegalDongCode())
+                .displayAddress(request.getDisplayAddress())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
                 .build();
@@ -32,6 +35,8 @@ public class AddressService {
         Address saved = addressRepository.save(address);
         return AddressResponse.from(saved);
     }
+
+
 
     public AddressResponse findByReference(AddressType addressType, String referenceId) {
         Address address = addressRepository.findByReferenceIdAndAddressType(referenceId, addressType)
@@ -59,8 +64,8 @@ public class AddressService {
     }
 
     // 특정 시의 구 목록 조회
-    public List<String> getDistrictsByCity(String city) {
-        return addressRepository.findDistinctDistrictsByCity(city);
+    public List<Address> getDistrictsByCity(String city) {
+        return addressRepository.findAllByCity(city);
     }
 
     // 특정 시/구의 동 목록 조회

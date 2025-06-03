@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "postImage")
+@Table(name = "post_image")
 @Getter
 @Setter
 @AllArgsConstructor

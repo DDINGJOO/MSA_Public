@@ -14,10 +14,21 @@ public interface StudioWeekRepository extends JpaRepository<StudioWeek, Long> {
 
     boolean existsByStudioIdAndDayOfWeekAndHour(String studioId, int dayOfWeek, int hour);
 
-    void deleteByStudioId(String studioId);
 
-    List<StudioWeek> findByStudioIdAndDayOfWeek(String studioId, int dayOfWeek);
+    void deleteAllByStudioId(String studioId);
 
-    void deleteByStudioIdAndDayOfWeek(String studioId, int dayOfWeek);
+
+    boolean existsByStudioId(String studioId);
+
+
+    void deleteAllByStudioIdAndOverriddenIsTrue(String studioId);
+
+
+    List<StudioWeek> findAllByStudioId(String studioId);
+
+
+    void deleteByStudioIdAndDayOfWeekAndHourAndOverriddenIsFalse(String studioId, int dayOfWeek, int hour);
+
+
 
 }

@@ -15,5 +15,4 @@ public class BandRoomWeekRequest {
     private Boolean isOddWeek; // 홀수주 여부
     private boolean isClosed; // 휴무 여부
     private Integer specialPrice; // 추가 요금 (nullable)
-
 }

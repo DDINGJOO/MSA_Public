@@ -1,12 +1,17 @@
 package dding.timeManager.dto.request.Stodio;
 
 import dding.timeManager.config.RecurrencePattern;
-import lombok.Getter;
+import dding.timeManager.entity.Studio.StudioWeek;
+import lombok.*;
 
 import java.time.LocalTime;
 
 @Getter
-public class StudioWeekRequest {
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class StudioWeeksDto {
 
     private int dayOfWeek;
     private LocalTime startTime;
@@ -15,5 +20,7 @@ public class StudioWeekRequest {
     private Boolean isOddWeek;
     private boolean isClosed;
     private Integer specialPrice;
+
+
 
 }

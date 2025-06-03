@@ -1,5 +1,6 @@
 package dding.timeManager.service.Studio;
 
+import dding.timeManager.config.RecurrencePattern;
 import dding.timeManager.dto.response.Avaiable.AvailableHourResponse;
 import dding.timeManager.entity.BandRoom.BandRoomWeek;
 import dding.timeManager.entity.HolidatSlot.HolidaySlot;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +26,6 @@ public class StudioAvailabilityService {
 
 
     private final StudioTimeSlotRepository studioTimeSlotRepository;
-    private final HolidaySlotRepository holidaySlotRepository;
     private final StudioWeekRepository studioWeekRepository;
     private final BandRoomWeekRepository bandRoomWeekRepository;
 
@@ -42,9 +44,9 @@ public class StudioAvailabilityService {
         }
 
         // 2. 공휴일 슬롯 확인
-        if (holidaySlotRepository.existsByStudioIdAndDateAndHour(studioId, date, hour)) {
-            return !holidaySlotRepository.findByStudioIdAndDateAndHour(studioId, date, hour).isClosed();
-        }
+//        if (holidaySlotRepository.existsByStudioIdAndDateAndHour(studioId, date, hour)) {
+//            return !holidaySlotRepository.findByStudioIdAndDateAndHour(studioId, date, hour).isClosed();
+//        }
 
         // 3. 스튜디오 주간 기본 시간 확인
         if (studioWeekRepository.existsByStudioIdAndDayOfWeekAndHour(studioId, dayOfWeek, hour)) {
@@ -53,7 +55,21 @@ public class StudioAvailabilityService {
 
         // 4. 합주실 기본 시간 확인
         BandRoomWeek bandRoomWeek = bandRoomWeekRepository.findByBandRoomIdAndDayOfWeekAndHour(bandRoomId, dayOfWeek, hour);
-        return bandRoomWeek != null && !bandRoomWeek.isClosed();
+
+        if (bandRoomWeek != null && !bandRoomWeek.isClosed()) {
+
+            if (bandRoomWeek.getRecurrencePattern() == RecurrencePattern.BIWEEKLY) {
+                int week = date.get(WeekFields.of(Locale.KOREA).weekOfWeekBasedYear());
+                boolean isOddWeek = week % 2 == 1;
+
+                if (bandRoomWeek.getIsOddWeek() != null && !isOddWeek == bandRoomWeek.getIsOddWeek()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -84,10 +100,10 @@ public class StudioAvailabilityService {
         }
 
         // 2. 공휴일 설정
-        HolidaySlot holidaySlot = holidaySlotRepository.findByStudioIdAndDateAndHour(studioId, date, hour);
-        if (holidaySlot != null && holidaySlot.getSpecialPrice() != null) {
-            return holidaySlot.getSpecialPrice();
-        }
+//        HolidaySlot holidaySlot = holidaySlotRepository.findByStudioIdAndDateAndHour(studioId, date, hour);
+//        if (holidaySlot != null && holidaySlot.getSpecialPrice() != null) {
+//            return holidaySlot.getSpecialPrice();
+//        }
 
         // 3. 주간 기본 설정
         StudioWeek weekSlot = studioWeekRepository.findByStudioIdAndDayOfWeekAndHour(studioId, date.getDayOfWeek().getValue() % 7, hour);

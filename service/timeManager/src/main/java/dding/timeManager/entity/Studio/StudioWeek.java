@@ -2,10 +2,7 @@ package dding.timeManager.entity.Studio;
 
 import dding.timeManager.config.RecurrencePattern;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -36,4 +33,14 @@ public class StudioWeek {
     private boolean isClosed;
 
     private Integer specialPrice;
+
+    @Column(nullable = false)
+    private boolean overridden;
+
+
+    @Column(nullable = false)
+    public boolean getOverridden() {
+        return this.overridden;
+    }
+
 }
